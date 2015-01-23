@@ -208,6 +208,19 @@ function build_smash_power_rankings(select_target, platform, group, bounds) {
                 d3.select(".char_header").text("");
             });
         
+        // Color
+        var line_bundles = plot_group.selectAll(".rank_line")[0].map( function(entry) { return { color_line: entry } } );
+        
+        // Hover
+        var hover_lines = plot_group.selectAll(".hover_line")[0];
+        hover_lines.forEach(function(hover_line, index) { line_bundles[index].hover_line = hover_line; });
+        
+        // Character Name
+        line_bundles.forEach(function(bundle_entry, index) { bundle_entry.character = all_rankings[index].character; });
+
+        // Character Lebel
+        var labels = plot_group.selectAll(".char_label")[0];
+        labels.forEach(function(label, index) { line_bundles[index].label = label; });
 
     });
 }

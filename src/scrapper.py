@@ -98,7 +98,7 @@ teamdata =  {
             {
                     'city': 'Los Angeles',
                     'values': [],
-                    'team': 'Clippers',
+                    'name': 'Clippers',
                     'color': '#006BB6',
                     'conference': 'Western',
                     'division': 'Pacific'
@@ -106,7 +106,7 @@ teamdata =  {
             {
                     'city': 'Los Angeles',
                     'values': [],
-                    'team': 'Lakers',
+                    'name': 'Lakers',
                     'color': '#552582',
                     'conference': 'Western',
                     'division': 'Pacific'
@@ -269,15 +269,21 @@ def getWeek(week):
             team_col = cols[1].find('div', style="padding:10px 0;")
             if (team_col):
                 city = team_col.find('a').string
-                addRank(city, rank, week - 1)
+                team_img = cols[1].find('a').get('href')
+                addRank(city, team_img, rank, week - 1)
 
-def addRank(team_name, rank, date_index):
-    #fuck LA
-    if (team_name == 'Los Angeles'):
-        return
+def addRank(team_name, team_img, rank, date_index):
     for team in teamdata['teams']:
         if team['city'] == team_name:
-            team['values'].append({ 'date': date_index, 'ranking': rank })
+            if (team_name == 'Los Angeles' and team['name'] == 'Lakers' and ( 'lakers' in team_img )):
+                team['values'].append({ 'date': date_index, 'ranking': rank })
+                break;
+            elif (team_name == 'Los Angeles' and team['name'] == 'Clippers' and ( 'clippers' in team_img )):
+                team['values'].append({ 'date': date_index, 'ranking': rank })
+                break;
+            elif (team_name != 'Los Angeles'):
+                team['values'].append({ 'date': date_index, 'ranking': rank })
+                break;
 
 getWeek(1)
 getWeek(2)
@@ -287,6 +293,10 @@ getWeek(5)
 getWeek(6)
 getWeek(7)
 getWeek(8)
+getWeek(9)
+getWeek(10)
+getWeek(11)
+getWeek(12)
 
-with open('tempData', 'w') as writehandle:
+with open('nba_data.json', 'w') as writehandle:
     json.dump(teamdata, writehandle)
