@@ -1,0 +1,36 @@
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+    vector-effect: non-scaling-stroke;
+}
+
+.char_label {
+    font-family: 'Open Sans', sans-serif;
+    
+    /* Prevents cursor from turning into 'I'
+    and blocking hover box cursor events */
+    pointer-events: none;
+}
+
+.char_label_hover {
+   opacity:0;
+   style:fill;
+}
+
+.rank_line {
+    fill: none;
+    stroke-width: 1.5px;
+    vector-effect: non-scaling-stroke;
+
+    /* Blend changes over time */
+    transition: stroke .5s ease-out;
+}
+
+.hover_line {
+    fill: none;
+    opacity: 0;
+    stroke: green;
+    stroke-width: 12px;
+}
