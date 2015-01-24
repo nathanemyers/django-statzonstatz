@@ -1,4 +1,4 @@
-function build_smash_power_rankings(select_target, platform, group, bounds) {
+function build_smash_power_rankings(select_target, bounds) {
 
     // Utility function to update elements within a bundle to a highlight state
     var highlightBundle = function(bundle) {
@@ -88,7 +88,9 @@ function build_smash_power_rankings(select_target, platform, group, bounds) {
                 return {
                     full_name: team.city + ' ' + team.name,
                     color: team.color,
-                    values: team.values
+                    values: team.values,
+                    conference: team.conference,
+                    division: team.division
                 }
             });
 
@@ -215,8 +217,7 @@ function build_smash_power_rankings(select_target, platform, group, bounds) {
         var hover_lines = plot_group.selectAll(".hover_line")[0];
         hover_lines.forEach(function(hover_line, index) { line_bundles[index].hover_line = hover_line; });
         
-        // Character Name
-        line_bundles.forEach(function(bundle_entry, index) { bundle_entry.character = all_rankings[index].character; });
+        line_bundles.forEach(function(bundle_entry, index) { bundle_entry.full_name = all_rankings[index].full_name; });
 
         // Character Lebel
         var labels = plot_group.selectAll(".char_label")[0];
