@@ -252,7 +252,7 @@ teamdata =  {
 
 
 def getWeek(week):
-    teamdata['dates'].append("Week" + str(week))
+    teamdata['dates'].append(str(week))
     url = 'http://espn.go.com/nba/powerrankings/_/week/' + str(week)
     print 'Getting URL: ' + url
     response = urllib2.urlopen(url)
@@ -297,6 +297,8 @@ getWeek(9)
 getWeek(10)
 getWeek(11)
 getWeek(12)
+getWeek(14)
+getWeek(15)
 
 with open('nba_data.json', 'w') as writehandle:
     json.dump(teamdata, writehandle)

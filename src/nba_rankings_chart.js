@@ -13,7 +13,7 @@ function build_smash_power_rankings(select_target, bounds) {
 
         // Make label 'pop'
         d3.select(bundle.label).style("font-weight", "bold");
-        d3.select(bundle.label).style("font-size", "110%");
+        //d3.select(bundle.label).style("font-size", "110%");
     };
 
     // Utility function to update elements within a bundle to a faded state
@@ -209,9 +209,15 @@ function build_smash_power_rankings(select_target, bounds) {
                 line_bundles.forEach(function(bundle) { resetBundle(bundle); });
                 d3.select(".char_header").text("");
             });
+
         
         // Color
         var line_bundles = plot_group.selectAll(".rank_line")[0].map( function(entry) { return { color_line: entry } } );
+
+        //plot_group.selectAll(".character_ranks")
+                //.filter(function(d) {return d.conference === "Eastern";})
+                ////.style("stroke-width", 0)
+                //.style("stroke", "#d3d3d3");
         
         // Hover
         var hover_lines = plot_group.selectAll(".hover_line")[0];
@@ -219,7 +225,7 @@ function build_smash_power_rankings(select_target, bounds) {
         
         line_bundles.forEach(function(bundle_entry, index) { bundle_entry.full_name = all_rankings[index].full_name; });
 
-        // Character Lebel
+        // Character Label
         var labels = plot_group.selectAll(".char_label")[0];
         labels.forEach(function(label, index) { line_bundles[index].label = label; });
 
