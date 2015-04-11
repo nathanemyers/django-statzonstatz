@@ -18,7 +18,7 @@ html, body {
 
 .main {
     background-color: white;
-    position: absolute;
+    position: absolute !important;
     top: 0;
     bottom: 0;
 }
