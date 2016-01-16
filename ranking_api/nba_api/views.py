@@ -3,10 +3,8 @@ from django.http import HttpResponse, JsonResponse
 from .models import Team, Ranking
 
 # Create your views here.
-def chart(request):
-    return render(request, 'chart/nba_power_rankings.html', {
-        'version': '1.3'
-        })
+def help(request):
+    return JsonResponse({'help': 'Hello! There is no help! Bwahahahaa!'})
 
 def info(request):
     most_recent = Ranking.objects.last()
