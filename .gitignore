@@ -5,5 +5,4 @@ include/
 lib/
 pip-selfcheck.json
 .Python
-
-
+.sass-cache
