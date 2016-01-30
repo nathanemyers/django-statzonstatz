@@ -1,0 +1,6 @@
+include README.md
+include LICENSE
+recursive-include nbapowerranks/static *
+recursive-include nbapowerranks/cron *
+recursive-include nbapowerranks/templates *
+recursive-include nbapowerranks/data *

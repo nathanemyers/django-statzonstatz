@@ -12,7 +12,7 @@ setup(
         version='0.1',
         packages=['nbapowerranks'],
         include_package_data=True,
-        license='BSD License',
+        license='MIT',
         description='A D3 chart of the Weekly NBA Power Ranks',
         long_description=README,
         url='https://www.nathanemyers.com/',
