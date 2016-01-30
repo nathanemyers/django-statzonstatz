@@ -1,8 +1,10 @@
 *.pyc
 *db.sqlite3
+*.egg-info
 bin/
 include/
 lib/
+dist/
 pip-selfcheck.json
 .Python
 .sass-cache
