@@ -66,7 +66,7 @@ function build_chart(selector) {
   svgContainer.call(tooltip);
 
   function find_chart_size() {
-    $.getJSON("/nba/api/rankings/info", function(data) {
+    $.getJSON("/api/rankings/info", function(data) {
       most_recent_week = data.most_recent_week;
       width = parseInt(svgContainer.style('width'));
 
@@ -92,7 +92,7 @@ function build_chart(selector) {
   }
 
   function render_chart(year, start_week, end_week) {
-    var api_url = '/nba/api/rankings/' + year + '?' + 
+    var api_url = '/api/rankings/' + year + '?' + 
       'start_week=' + start_week + ';end_week=' + end_week;
     $.getJSON(api_url, function(data) {
       data = data.results;

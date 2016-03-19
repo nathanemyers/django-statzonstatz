@@ -151,7 +151,7 @@ class Command(BaseCommand):
             team_html_link = city_col[0].get('href') 
 
             team = resolve_team(team_html_link)
-
+            
             comment = stripTags(cols[3], ['b', 'i', 'a', 'u'])
             # TODO comment.getText() will sometimes leave a bunch of whitespace at the end, doesn't seem to effect webapp though
             comment_string = comment.getText()

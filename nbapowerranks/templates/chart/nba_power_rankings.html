@@ -1,16 +1,11 @@
-{% extends "base.html" %}
-
-{% block head %}
 <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script src="/static/d3_rankings.js?ver={{version}}"></script>
 <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
 
 <link rel="stylesheet" href="/static/css/chart.css?ver={{version}}" type="text/css" charset="utf-8">
 <link rel="stylesheet" href="/static/css/info-display.css?ver={{version}}" type="text/css" charset="utf-8">
 <link rel="stylesheet" href="/static/css/nba_power_rankings.css?ver={{version}}" type="text/css" charset="utf-8">
-{% endblock %}
-
-{% block content %}
 <!--<h2 style='text-align: center'>-->
 <!--2015-2016 NBA Power Rankings-->
 <!--</h2>-->
@@ -20,13 +15,7 @@
 
 <div class="power_rankings">
   <div class="chart">
-    <div id="team-info-display">
-      <div class="info-team-name">
-        Indiana Pacers
-      </div>
-    </div>
-    <svg width='100%' height='600' id='nba-chart'>
-    </svg>
+    <svg width='100%' height='600' id='nba-chart'> </svg>
   </div>
 
   <div class="power_rankings_text">
@@ -40,4 +29,3 @@
 <script>
 build_chart('#nba-chart')
 </script>
-{% endblock %}
