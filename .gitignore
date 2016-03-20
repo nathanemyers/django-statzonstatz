@@ -8,3 +8,4 @@ dist/
 pip-selfcheck.json
 .Python
 .sass-cache
+.DS_Store

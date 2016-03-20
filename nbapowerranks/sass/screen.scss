@@ -5,6 +5,10 @@
 
 @import "compass/reset";
 
+body {
+  font-family: 'Titillium Web', sans-serif;
+}
+
 .main {
   background-image: url('/static/images/nba-logo-tiled.jpg')
 }

@@ -68,11 +68,16 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 }
 
 /* line 8, ../../sass/screen.scss */
+body {
+  font-family: 'Titillium Web', sans-serif;
+}
+
+/* line 12, ../../sass/screen.scss */
 .main {
   background-image: url("/static/images/nba-logo-tiled.jpg");
 }
 
-/* line 12, ../../sass/screen.scss */
+/* line 16, ../../sass/screen.scss */
 .content {
   max-width: 1040px;
   margin: auto;
