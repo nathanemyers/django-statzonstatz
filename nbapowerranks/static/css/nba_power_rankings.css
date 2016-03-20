@@ -1,9 +1,13 @@
+/* line 1, ../../sass/nba_power_rankings.scss */
 .power-rankings-header-image {
-  margin: 10px; }
-  .power-rankings-header-image img {
-    width: 100%; }
+  margin: 10px;
+}
+/* line 4, ../../sass/nba_power_rankings.scss */
+.power-rankings-header-image img {
+  width: 100%;
+}
 
+/* line 9, ../../sass/nba_power_rankings.scss */
 .power_rankings_text {
-  margin: 10px; }
-
-/*# sourceMappingURL=nba_power_rankings.css.map */
+  margin: 10px;
+}

@@ -10,26 +10,32 @@
   <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
   <script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
 
+  <link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.png" />
+
+
   <link rel="stylesheet" href="/static/css/chart.css?ver={{version}}" type="text/css" charset="utf-8">
   <link rel="stylesheet" href="/static/css/info-display.css?ver={{version}}" type="text/css" charset="utf-8">
   <link rel="stylesheet" href="/static/css/nba_power_rankings.css?ver={{version}}" type="text/css" charset="utf-8">
 
 </head>
-<body id="Hallo" onload="">
+<body>
 
-  <div class='power-rankings-header-image'>
-    <img src="/static/images/2015-2016-nba-power-rankings.jpg" alt="2015-2016 NBA Power Rankings"/> 
-  </div>
+  <div class="main">
 
-  <div class="power_rankings">
-    <div class="chart">
-      <svg width='100%' height='600' id='nba-chart'> </svg>
+    <div class='header-image'>
+      <img src="/static/images/2015-2016-nba-power-rankings.jpg" alt="2015-2016 NBA Power Rankings"/> 
     </div>
 
-    <div class="power_rankings_text">
-      <p>Source: <a href="http://espn.go.com/nba/powerrankings" target="_blank">ESPN</a></p>
+    <div class="power_rankings">
+      <div class="chart">
+        <svg width='100%' height='600' id='nba-chart'> </svg>
+      </div>
 
+      <div class="power_rankings_text">
+        <p>Source: <a href="http://espn.go.com/nba/powerrankings" target="_blank">ESPN</a></p>
+      </div>
     </div>
+
   </div>
 </body>
 </html>
