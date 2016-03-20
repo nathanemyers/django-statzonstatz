@@ -82,3 +82,9 @@ body {
   max-width: 1040px;
   margin: auto;
 }
+
+/* line 21, ../../sass/screen.scss */
+.chart {
+  margin-top: 20px;
+  background-color: white;
+}
