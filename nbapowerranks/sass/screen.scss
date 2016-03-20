@@ -4,3 +4,12 @@
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
 
 @import "compass/reset";
+
+.main {
+  background-image: url('/static/images/nba-logo-tiled.jpg')
+}
+
+.content {
+  max-width: 1040px;
+  margin:  auto;
+}
