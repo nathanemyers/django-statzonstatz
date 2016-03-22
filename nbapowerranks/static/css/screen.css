@@ -67,24 +67,31 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   display: block;
 }
 
-/* line 8, ../../sass/screen.scss */
+/* line 9, ../../sass/screen.scss */
 body {
   font-family: 'Titillium Web', sans-serif;
 }
 
-/* line 12, ../../sass/screen.scss */
-.main {
-  background-image: url("/static/images/nba-logo-tiled.jpg");
+/* line 14, ../../sass/screen.scss */
+.header-image img {
+  width: 100%;
 }
 
-/* line 16, ../../sass/screen.scss */
-.content {
-  max-width: 1040px;
-  margin: auto;
-}
-
-/* line 21, ../../sass/screen.scss */
+/* line 20, ../../sass/screen.scss */
 .chart {
   margin-top: 20px;
   background-color: white;
+}
+
+@media all and (min-width: 600px) {
+  /* line 26, ../../sass/screen.scss */
+  .main {
+    background-image: url("/static/images/nba-logo-tiled.jpg");
+  }
+
+  /* line 30, ../../sass/screen.scss */
+  .content {
+    max-width: 1040px;
+    margin: auto;
+  }
 }
