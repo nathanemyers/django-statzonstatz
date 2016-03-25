@@ -214,11 +214,6 @@ function build_chart(selector) {
         .attr('transform', 'rotate(-90)')
         .text('Rank');
 
-
-      $(".Pacers").click(function() {
-        $("#team-info-display").css('display', 'block');
-      });
-
     });
   }
 
@@ -233,24 +228,14 @@ function build_chart(selector) {
 
 
 
-  //$(window).resize(function() {
-      //width = parseInt(svgContainer.style('width'));
-
-      //max_weeks = Math.floor(width / 100);
-
-      //if (max_weeks > 18) {
-        //max_weeks = 18;
-      //}
-
-      //var start_week = most_recent_week - max_weeks;
-      //start_week = (start_week < 0) ? 0 : start_week;
-
-      //x.domain([start_week, max_weeks]);
-      //x.range([border_left, width - border_right]);
-      //xAxis.ticks(max_weeks);
-  //});
-
-
+  $(window).on('orientationchange', function(event) {
+    var temp;
+    temp = svgContainer.selectAll('text');
+      temp.remove();
+    temp = svgContainer.selectAll('g');
+      temp.remove();
+    find_chart_size();
+  });
 
 
 
