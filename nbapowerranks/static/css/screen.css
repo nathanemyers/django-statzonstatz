@@ -85,13 +85,17 @@ body {
 
 @media all and (min-width: 600px) {
   /* line 26, ../../sass/screen.scss */
-  .main {
+  body {
     background-image: url("/static/images/nba-logo-tiled.jpg");
   }
 
   /* line 30, ../../sass/screen.scss */
-  .content {
+  .page-segment {
     max-width: 1040px;
     margin: auto;
   }
+}
+/* line 36, ../../sass/screen.scss */
+.no-show {
+  display: none;
 }

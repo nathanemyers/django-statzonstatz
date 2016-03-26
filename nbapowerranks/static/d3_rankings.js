@@ -215,25 +215,23 @@ function build_chart(selector) {
         .text('Rank');
 
     });
+
+    $('.spinner-container').addClass('no-show');
   }
 
   // kicks off render
   find_chart_size();
   
-  $("#team-info-display").click(function() {
-    $("#team-info-display").css('display', 'none');
-  });
-
-
-
-
 
   $(window).on('orientationchange', function(event) {
-    var temp;
-    temp = svgContainer.selectAll('text');
-      temp.remove();
-    temp = svgContainer.selectAll('g');
-      temp.remove();
+
+    $('.spinner-container').removeClass('no-show');
+    svgContainer
+      .selectAll('text')
+      .remove();
+    svgContainer
+      .selectAll('g')
+      .remove();
     find_chart_size();
   });
 
