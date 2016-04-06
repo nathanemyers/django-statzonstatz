@@ -124,7 +124,7 @@ function build_chart(selector) {
           })
           .attr('class', lineClass)
           .style('text-anchor', 'end')
-          .on('mouseenter', function(d) {
+          .on('mouseover', function(d) {
             bring_to_fore(team2class(d.name));
             $('.chart').addClass('highlight ' + team2class(d.name));
           })
@@ -142,7 +142,7 @@ function build_chart(selector) {
           .attr('cy', function(d) {
             return y(d.rank);
           })
-          .attr('r', '8')
+          .attr('r', '4px')
           .style('fill', 'none');
           
 
@@ -158,7 +158,7 @@ function build_chart(selector) {
         .append('path')
         .attr('d', function(d) { return line(d.rankings); })
         .attr('class', 'line-handle')
-        .on('mouseenter', function(d) {
+        .on('mouseover', function(d) {
           bring_to_fore(team2class(d.name));
           $('.chart').addClass('highlight ' + team2class(d.name));
         })
@@ -175,7 +175,7 @@ function build_chart(selector) {
           .attr('cy', function(d) {
             return y(d.rank);
           })
-          .attr('r', '6')
+          .attr('r', '6px')
           .style('fill', 'red')
           .style('opacity', '0')
           .on('mouseenter', function(d) {

@@ -1,7 +1,7 @@
-$highlight-stroke-width: 3;
-$stroke-width: 2;
-$highlight-bubble-radius: 5;
-$bubble-radius: 3;
+$highlight-stroke-width: 3px;
+$stroke-width: 2px;
+$highlight-bubble-radius: 5px;
+$bubble-radius: 3px;
 
 $gray: #D3D3D3;
 $black: #000;
@@ -60,7 +60,7 @@ text.team {
 // this is the thick invisible line that overlays
 // all the colored lines which handles the mouse events
 path.line-handle {
-  stroke-width: 10;
+  stroke-width: 10px;
   fill: none;
   stroke: red;
   opacity: 0;
