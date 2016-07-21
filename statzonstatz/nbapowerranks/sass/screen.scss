@@ -1,0 +1,38 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+@import "compass/reset";
+@import "variables";
+
+body {
+  font-family: 'Titillium Web', sans-serif;
+}
+
+.header-image {
+  img {
+    width: 100%;
+  }
+}
+
+
+.chart {
+  margin-top: 20px;
+  background-color: white;
+}
+
+@media all and (min-width: $mobile-break) {
+  body {
+    background-image: url('/static/images/nba-logo-tiled.jpg')
+  }
+
+  .page-segment {
+    max-width: 1040px;
+    margin:  auto;
+  }
+}
+
+.no-show {
+  display: none;
+}

@@ -1,0 +1,13 @@
+/* line 1, ../../sass/info-display.scss */
+#team-info-display {
+  display: none;
+  position: absolute;
+  width: 900px;
+  height: 600px;
+  background-color: blue;
+}
+
+/* line 9, ../../sass/info-display.scss */
+.info-team-name {
+  font-size: 3em;
+}
