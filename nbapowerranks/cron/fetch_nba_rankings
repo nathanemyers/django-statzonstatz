@@ -1,1 +1,0 @@
-0 17 * * 1 /var/www/nathanemyers.com/homepage/manage.py fetch_rankings
