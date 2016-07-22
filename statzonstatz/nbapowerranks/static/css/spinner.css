@@ -1,5 +1,5 @@
 /* line 1, ../../sass/spinner.scss */
-.spinner-container {
+#spinner-container {
   position: absolute;
   height: 600px;
   width: 100%;
