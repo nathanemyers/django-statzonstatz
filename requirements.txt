@@ -1,5 +1,7 @@
+beautifulsoup4==4.5.0
 blessings==1.6
 bpython==0.15
+bs4==0.0.1
 curtsies==0.2.6
 Django==1.9.8
 django-bower==5.1.0
