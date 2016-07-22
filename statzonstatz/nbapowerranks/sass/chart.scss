@@ -77,8 +77,6 @@ path.line-handle {
     fill: none;
     @include transition();
   }
-
-
 }
 
 @mixin highlight-line($team) {
