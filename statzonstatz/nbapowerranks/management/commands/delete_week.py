@@ -15,7 +15,6 @@ class Command(BaseCommand):
                 nargs='?',
                 help='Delete the specified week')
 
-    def add_arguments(self, parser):
         parser.add_argument('--year',
                 action='store',
                 type=int,
@@ -28,17 +27,7 @@ class Command(BaseCommand):
         week = options['week']
         year = options['year']
 
-        print 'Deleting data for week ' + str(week) + ': ' + str(year)
+        print 'Deleting data for week ' + str(week) + ': ' + str(year) + '...'
+        deleted = Ranking.objects.filter(year=year, week=week).delete()
+        print 'Deleted ' + str(deleted[0]) + ' rankings.'
 
-
-                #rank_object = Ranking(
-                        #year = YEAR,
-                        #rank = rank,
-                        #record = record,
-                        #team = team,
-                        #summary = comment_string,
-                        #week = week
-                        #)
-                #rank_object.save()
-
-            
