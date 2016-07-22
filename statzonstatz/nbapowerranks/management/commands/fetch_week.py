@@ -24,9 +24,9 @@ def stripTags(html, invalid_tags):
     return html
 
 def resolve_team(team_html_link):
-    if 'los-angeles-lakers' in team_html_link:
+    if 'lakers' in team_html_link:
         return Team.objects.get(name='Lakers')
-    if 'los-angeles-clippers' in team_html_link:
+    if 'clippers' in team_html_link:
         return Team.objects.get(name='Clippers')
     if 'warriors' in team_html_link:
         return Team.objects.get(name='Warriors')
