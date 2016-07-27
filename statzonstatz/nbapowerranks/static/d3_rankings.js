@@ -1,3 +1,4 @@
+/* jshint esnext: true */
 var data;
 
 var margin = {top: 0, right: 0, bottom: 0, left: 100};
@@ -10,6 +11,7 @@ var dataHeight = height - dataMargin.top - dataMargin.bottom;
 
 var x_min = 0;
 var x_max = 10;
+var current_x_min = x_min;
 
 var x = d3.scaleLinear()
   .domain([x_min, x_max])
@@ -21,8 +23,8 @@ var y = d3.scaleLinear()
 
 var line = d3.line()
   .curve(d3.curveMonotoneX)
-  .x(function(d) {return x(d.week);})
-  .y(function(d) {return y(d.rank) ;});
+  .x(d => x(d.week))
+  .y(d => y(d.rank));
 
 
 window.onload = function() {
@@ -52,17 +54,35 @@ window.onload = function() {
       .attr('transform', 'translate(' + dataMargin.left + ',' + (height - margin.bottom - dataMargin.bottom + 5) + ')')
       .call(xAxis);
 
+    var gY = outer.append('g')
+        .attr('transform', 'translate(0,' + margin.top + ')');
+
+
+    var labels = gY.selectAll('.team-label')
+      .data(data)
+      .enter().append('text')
+        .attr('class', 'team-label');
+
+    labels
+        .attr('transform', function(d) {
+          return 'translate(0, ' + y(d.rankings[current_x_min].rank) + ')';
+        })
+        .text(function(d) {
+          return d.name;
+        });
+
+      
+
     var team = inner.selectAll('.team')
       .data(data)
       .enter().append('g')
         .attr('class', 'team');
 
     team.append('path')
-      .attr('d', function(d) {
-        return line(d.rankings);
-      })
+      .attr('d', d => line(d.rankings))
       .style('fill', 'none')
-      .style('stroke', 'blue');
+      .style('stroke-width', 1.5)
+      .style('stroke', d => d.color);
 
     var zoom = d3.zoom()
       .on('zoom', zoomed)
@@ -80,6 +100,8 @@ window.onload = function() {
     function zoomed() {
       team.attr('transform', d3.event.transform);
       gX.call(xAxis.scale(d3.event.transform.rescaleX(x)));
+      current_x_min = format(x.invert(-d3.event.transform.x));
+      //roundedBase = format(Math.round(base));
     }
     
     var format = d3.format(".01f");
