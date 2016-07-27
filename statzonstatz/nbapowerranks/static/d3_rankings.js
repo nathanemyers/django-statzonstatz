@@ -26,6 +26,7 @@ var line = d3.line()
   .x(d => x(d.week))
   .y(d => y(d.rank));
 
+var format = d3.format(".01f");
 
 window.onload = function() {
   d3.json('api/rankings/2016', function(error, json) {
@@ -37,13 +38,16 @@ window.onload = function() {
 
 
     var outer = d3.select(".chart").append("svg")
+        .attr("style", "border: 1px solid black;")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom);
 
-    var inner = outer.append("svg")
+    var inner = outer
+      .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+      .append("svg")
         .attr("width", dataWidth + dataMargin.left + dataMargin.right)
         .attr("height", dataHeight + dataMargin.top + dataMargin.bottom)
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
       .append('g')
         .attr("transform", "translate(" + dataMargin.left + "," + dataMargin.top + ")");
         
@@ -51,33 +55,26 @@ window.onload = function() {
     var xAxis = d3.axisBottom(x);
 
     var gX = outer.append('g')
-      .attr('transform', 'translate(' + dataMargin.left + ',' + (height - margin.bottom - dataMargin.bottom + 5) + ')')
+      .attr('transform', 'translate(' + ( margin.left + dataMargin.left ) + ',' + (height - margin.bottom - dataMargin.bottom + 5) + ')')
       .call(xAxis);
 
     var gY = outer.append('g')
-        .attr('transform', 'translate(0,' + margin.top + ')');
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + dataMargin.top +  ')');
 
 
     var labels = gY.selectAll('.team-label')
       .data(data)
       .enter().append('text')
-        .attr('class', 'team-label');
-
+        .attr('class', 'team-label')
+        .attr('text-anchor', 'end');
     labels
-        .attr('transform', function(d) {
-          return 'translate(0, ' + y(d.rankings[current_x_min].rank) + ')';
-        })
-        .text(function(d) {
-          return d.name;
-        });
-
-      
+        .attr('transform', d => 'translate(0, ' + y(d.rankings[current_x_min].rank) + ')')
+        .text(d => d.name);
 
     var team = inner.selectAll('.team')
       .data(data)
       .enter().append('g')
         .attr('class', 'team');
-
     team.append('path')
       .attr('d', d => line(d.rankings))
       .style('fill', 'none')
@@ -100,11 +97,22 @@ window.onload = function() {
     function zoomed() {
       team.attr('transform', d3.event.transform);
       gX.call(xAxis.scale(d3.event.transform.rescaleX(x)));
+
       current_x_min = format(x.invert(-d3.event.transform.x));
-      //roundedBase = format(Math.round(base));
+      var xFloor = Math.floor(current_x_min);
+      var xCeil = Math.ceil(current_x_min);
+      var percent = d3.easeCubic(current_x_min % 1);
+
+      labels.attr('transform', function(d) {
+        var floor = y(d.rankings[xFloor].rank);
+        var ceil = y(d.rankings[xCeil].rank);
+        var travel = ceil - floor;
+        var newY = floor + ( travel * percent );
+        return 'translate(0, ' + newY + ')';
+      });
     }
+
     
-    var format = d3.format(".01f");
     function center() {
       var base = format(x.invert(-d3.event.transform.x));
       roundedBase = format(Math.round(base));
