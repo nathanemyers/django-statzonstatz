@@ -50,7 +50,7 @@ window.onload = function() {
         .attr("height", dataHeight + dataMargin.top + dataMargin.bottom)
       .append('g')
         .attr("transform", "translate(" + dataMargin.left + "," + dataMargin.top + ")");
-        
+
 
     var xAxis = d3.axisBottom(x);
 
@@ -83,11 +83,11 @@ window.onload = function() {
 
     var zoom = d3.zoom()
       .on('zoom', zoomed)
-      //.on('end', center)
+      .on('end', center)
       .translateExtent([[0,0], [3200, height + margin.top + margin.bottom]])
-      .scaleExtent([0,0]);
+      .scaleExtent([1,1]);
 
-    inner.append('rect')
+    var zoomHandle = inner.append('rect')
       .attr('width', width)
       .attr('height', height)
       .attr('fill', 'none')
@@ -112,17 +112,20 @@ window.onload = function() {
       });
     }
 
-    
     function center() {
       var base = format(x.invert(-d3.event.transform.x));
-      roundedBase = format(Math.round(base));
-      if (base == roundedBase) {
-        return;
+      var roundedBase = format(Math.round(base));
+      var moveBy = x(roundedBase - base);
+      if (Math.abs(moveBy) > 1)  {
+        var mX = x(roundedBase);
+        var t = d3.zoomIdentity.translate(-mX, 0);
+        //zoom.transform(zoomHandle, t);
+        zoomHandle
+          .transition()
+          .duration(200)
+          .call(zoom.transform, t);
       }
-      zoom.translateBy(team, base - roundedBase);
     }
-    d3.select('#center')
-      .on('click', center);
 
   });
 
@@ -132,4 +135,3 @@ function init() {
   console.log(data);
   $('#spinner-container').css('display', 'none');
 }
-
