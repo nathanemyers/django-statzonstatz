@@ -26,6 +26,11 @@ var line = d3.line()
   .x(d => x(d.week))
   .y(d => y(d.rank));
 
+var voronoi = d3.voronoi()
+  .x(d => x(d.week))
+  .y(d => y(d.rank))
+  .size([3200, height]);
+
 var format = d3.format(".01f");
 
 window.onload = function() {
@@ -34,8 +39,14 @@ window.onload = function() {
       return console.warn(error);
     }
     data = json.results;
-    init();
+    $('#spinner-container').css('display', 'none');
 
+    var allPoints = [];
+    data.forEach(function(d){
+      allPoints = allPoints.concat(d.rankings);
+    });
+
+    var voronoiData = voronoi.polygons(allPoints);
 
     var outer = d3.select(".chart").append("svg")
         .attr("style", "border: 1px solid black;")
@@ -71,6 +82,17 @@ window.onload = function() {
         .attr('transform', d => 'translate(0, ' + y(d.rankings[current_x_min].rank) + ')')
         .text(d => d.name);
 
+    function highlight(team) {
+      console.log(team);
+    }
+
+    var voronoiPoly = inner.selectAll('.voronoi')
+      .data(voronoiData)
+      .enter().append('path')
+        .attr('class', 'voronoi')
+        .attr('d', function(d) { return d ? "M" + d.join("L") + "Z" : null; })
+        .on('mouseenter', d => highlight(d) );
+
     var team = inner.selectAll('.team')
       .data(data)
       .enter().append('g')
@@ -96,6 +118,7 @@ window.onload = function() {
 
     function zoomed() {
       team.attr('transform', d3.event.transform);
+      voronoiPoly.attr('transform', d3.event.transform);
       gX.call(xAxis.scale(d3.event.transform.rescaleX(x)));
 
       current_x_min = format(x.invert(-d3.event.transform.x));
@@ -130,8 +153,3 @@ window.onload = function() {
   });
 
 };
-
-function init() {
-  console.log(data);
-  $('#spinner-container').css('display', 'none');
-}
