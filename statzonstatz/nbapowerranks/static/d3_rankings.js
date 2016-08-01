@@ -82,16 +82,6 @@ window.onload = function() {
         .attr('transform', d => 'translate(0, ' + y(d.rankings[current_x_min].rank) + ')')
         .text(d => d.name);
 
-    function highlight(team) {
-      console.log(team);
-    }
-
-    var voronoiPoly = inner.selectAll('.voronoi')
-      .data(voronoiData)
-      .enter().append('path')
-        .attr('class', 'voronoi')
-        .attr('d', function(d) { return d ? "M" + d.join("L") + "Z" : null; })
-        .on('mouseenter', d => highlight(d) );
 
     var team = inner.selectAll('.team')
       .data(data)
@@ -112,9 +102,19 @@ window.onload = function() {
     var zoomHandle = inner.append('rect')
       .attr('width', width)
       .attr('height', height)
-      .attr('fill', 'none')
-      .attr('pointer-events', 'all')
+      .attr('class', 'zoom-handle')
       .call(zoom);
+
+    function highlight(team) {
+      console.log(team);
+    }
+
+    var voronoiPoly = zoomHandle.selectAll('.voronoi')
+      .data(voronoiData)
+      .enter().append('path')
+        .attr('class', 'voronoi')
+        .attr('d', function(d) { return d ? "M" + d.join("L") + "Z" : null; })
+        .on('mouseover', highlight(team));
 
     function zoomed() {
       team.attr('transform', d3.event.transform);

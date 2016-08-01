@@ -42,6 +42,11 @@ $hornets: #1D1160;
   stroke: red;
 }
 
+.zoom-handle {
+  fill: none;
+  pointer-events: all;
+}
+
 
 .axis text {
   font: 10px sans-serif;
