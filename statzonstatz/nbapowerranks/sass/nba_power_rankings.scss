@@ -1,11 +1,25 @@
-.power-rankings-header-image {
-  margin: 10px;
-  
-  img {
-    width: 100%;
+@import "compass/utilities/general/clearfix";
+
+.power-rankings {
+  button {
+    padding: 5px;
+    font-size: 1.1em;
   }
 }
 
-.power_rankings_text {
-  margin: 10px;
+.panning-controls {
+  width: 500px;
+  margin: 0 auto;
+}
+
+.panning-controls {
+  @include clearfix();
+}
+
+#left {
+  float: left;
+}
+
+#right {
+  float: right;
 }

@@ -95,7 +95,7 @@ window.onload = function() {
 
     var zoom = d3.zoom()
       .on('zoom', zoomed)
-      .on('end', center)
+      .on('end', centerOnNearestBase)
       .translateExtent([[0,0], [3200, height + margin.top + margin.bottom]])
       .scaleExtent([1,1]);
 
@@ -135,20 +135,37 @@ window.onload = function() {
       });
     }
 
-    function center() {
-      var base = format(x.invert(-d3.event.transform.x));
+    function centerOnNearestBase() {
+      var base = format(x.invert(-d3.event.transform.x)); // where the left hand of the axis lies
       var roundedBase = format(Math.round(base));
-      var moveBy = x(roundedBase - base);
-      if (Math.abs(moveBy) > 1)  {
-        var mX = x(roundedBase);
+      if (Math.abs(x(roundedBase - base)) > 1)  {
+        // if we're more than 1 pixel off
+        centerOn(roundedBase);
+      }
+    }
+
+    function centerOn(base) {
+        var mX = x(base); 
         var t = d3.zoomIdentity.translate(-mX, 0);
-        //zoom.transform(zoomHandle, t);
         zoomHandle
           .transition()
           .duration(200)
           .call(zoom.transform, t);
-      }
     }
+
+    // Desktop Panning Controls
+    var leftButton = d3.select('#left')
+      .on('click', function() {
+        current_x_min--;
+        console.log('moving to ' + current_x_min);
+        centerOn(current_x_min);
+      });
+    var rightButton = d3.select('#right')
+      .on('click', function() {
+        current_x_min++;
+        console.log('moving to ' + current_x_min);
+        centerOn(current_x_min);
+      });
 
   });
 
