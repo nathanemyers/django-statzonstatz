@@ -1,3 +1,5 @@
+@import 'variables';
+
 $highlight-stroke-width: 3px;
 $stroke-width: 2px;
 $highlight-bubble-radius: 5px;
@@ -37,6 +39,8 @@ $philly: #ED174C;
 $pistons: #ED174C;
 $hornets: #1D1160;
 
+/*SVG logic*/
+
 .voronoi {
   fill: none;
   stroke: red;
@@ -45,8 +49,12 @@ $hornets: #1D1160;
 .zoom-handle {
   fill: none;
   pointer-events: all;
-}
 
+  @media screen and (min-width: $mobile-break) {
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
 
 .axis text {
   font: 10px sans-serif;
@@ -55,6 +63,8 @@ $hornets: #1D1160;
 text.team {
   cursor: default;
 }
+
+/*Generic styling*/
 
 .axis path,
 .axis line {
@@ -103,6 +113,8 @@ path.line-handle {
       fill: $black; 
     }
 }
+
+/*Team specific styling*/
 
 g.warriors {
   @include normal-line($warriors)
