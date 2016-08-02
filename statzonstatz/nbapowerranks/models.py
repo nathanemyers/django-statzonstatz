@@ -5,6 +5,7 @@ from django.db import models
 class Team(models.Model):
     region = models.CharField(max_length=200)
     name = models.CharField(max_length=200)
+    css_slug = models.CharField(max_length=200)
     color = models.CharField(max_length=50)
     conference = models.CharField(max_length=100)
     division = models.CharField(max_length=100)
