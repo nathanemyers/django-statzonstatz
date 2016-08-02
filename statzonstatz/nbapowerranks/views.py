@@ -60,6 +60,7 @@ def year_rankings(request, year):
         team_data = Team.objects.get(name=team)
         list_rankings.append({
             'name': team_data.name,
+            'slug': team_data.css_slug,
             'conference': team_data.conference,
             'division': team_data.division,
             'color': team_data.color,

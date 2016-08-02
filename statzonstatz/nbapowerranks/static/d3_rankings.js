@@ -48,6 +48,14 @@ window.onload = function() {
 
     var voronoiData = voronoi.polygons(allPoints);
 
+    // find initial rankings for greensock
+    var start_rankings = new Array(30);
+    data.forEach(function(team) {
+      let rank = team.rankings[0].rank;
+      start_rankings[rank - 1] = '.' + team.slug;
+    });
+    start_rankings.reverse();
+
     var outer = d3.select(".chart").append("svg")
         .attr("style", "border: 1px solid black;")
         .attr("width", width + margin.left + margin.right)
@@ -76,9 +84,8 @@ window.onload = function() {
     var labels = gY.selectAll('.team-label')
       .data(data)
       .enter().append('text')
-        .attr('class', 'team-label')
-        .attr('text-anchor', 'end');
-    labels
+        .attr('class', d => d.slug + ' team-label')
+        .attr('text-anchor', 'end')
         .attr('transform', d => 'translate(0, ' + y(d.rankings[current_x_min].rank) + ')')
         .text(d => d.name);
 
@@ -86,12 +93,12 @@ window.onload = function() {
     var team = inner.selectAll('.team')
       .data(data)
       .enter().append('g')
-        .attr('class', 'team');
-    team.append('path')
-      .attr('d', d => line(d.rankings))
-      .style('fill', 'none')
-      .style('stroke-width', 1.5)
-      .style('stroke', d => d.color);
+        .attr('class', d => d.slug + ' team')
+      .append('path')
+        .attr('d', d => line(d.rankings))
+        .style('fill', 'none')
+        .style('stroke-width', 1.5)
+        .style('stroke', d => d.color);
 
     var zoom = d3.zoom()
       .on('zoom', zoomed)
@@ -166,6 +173,8 @@ window.onload = function() {
         console.log('moving to ' + current_x_min);
         centerOn(current_x_min);
       });
+
+    TweenMax.staggerFrom(start_rankings, 1, {opacity: 0}, 0.025);
 
   });
 

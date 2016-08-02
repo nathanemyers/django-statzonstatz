@@ -3,6 +3,7 @@
     {
       "city": "Golden State",
       "name": "Warriors",
+      "slug": "warriors",
       "values": [],
       "color": "#FDB927",
       "conference": "Western",
@@ -11,6 +12,7 @@
     {
       "city": "Chicago",
       "name": "Bulls",
+      "slug": "bulls",
       "values": [],
       "color": "#CE1141",
       "conference": "Eastern",
@@ -19,6 +21,7 @@
     {
       "city": "Toronto",
       "name": "Raptors",
+      "slug": "raptors",
       "values": [],
       "color": "#CE1141",
       "conference": "Eastern",
@@ -27,6 +30,7 @@
     {
       "city": "Cleveland",
       "name": "Cavaliers",
+      "slug": "cavaliers",
       "values": [],
       "color": "#860038",
       "conference": "Eastern",
@@ -35,6 +39,7 @@
     {
       "city": "Washington",
       "name": "Wizards",
+      "slug": "wizards",
       "values": [],
       "color": "#002566",
       "conference": "Eastern",
@@ -43,6 +48,7 @@
     {
       "city": "Miami",
       "name": "Heat",
+      "slug": "heat",
       "values": [],
       "color": "#98002E",
       "conference": "Eastern",
@@ -51,6 +57,7 @@
     {
       "city": "Milwaukee",
       "name": "Bucks",
+      "slug": "bucks",
       "values": [],
       "color": "#00471B",
       "conference": "Eastern",
@@ -59,6 +66,7 @@
     {
       "city": "Atlanta",
       "name": "Hawks",
+      "slug": "hawks",
       "values": [],
       "color": "#E13A3E",
       "conference": "Eastern",
@@ -67,6 +75,7 @@
     {
       "city": "Oklahoma City",
       "name": "Thunder",
+      "slug": "thunder",
       "values": [],
       "color": "#007DC6",
       "conference": "Western",
@@ -75,6 +84,7 @@
     {
       "city": "Sacramento",
       "name": "Kings",
+      "slug": "kings",
       "values": [],
       "color": "#724C9F",
       "conference": "Western",
@@ -83,6 +93,7 @@
     {
       "city": "Houston",
       "name": "Rockets",
+      "slug": "rockets",
       "values": [],
       "color": "#CE1141",
       "conference": "Western",
@@ -92,6 +103,7 @@
       "city": "Los Angeles",
       "values": [],
       "name": "Clippers",
+      "slug": "clippers",
       "color": "#006BB6",
       "conference": "Western",
       "division": "Pacific"
@@ -100,6 +112,7 @@
       "city": "Los Angeles",
       "values": [],
       "name": "Lakers",
+      "slug": "lakers",
       "color": "#552582",
       "conference": "Western",
       "division": "Pacific"
@@ -107,6 +120,7 @@
     {
       "city": "Portland",
       "name": "Trail Blazers",
+      "slug": "blazers",
       "values": [],
       "color": "#B6BFBF",
       "conference": "Western",
@@ -115,6 +129,7 @@
     {
       "city": "Dallas",
       "name": "Mavericks",
+      "slug": "mavericks",
       "values": [],
       "color": "#007DC5",
       "conference": "Western",
@@ -123,6 +138,7 @@
     {
       "city": "San Antonio",
       "name": "Spurs",
+      "slug": "spurs",
       "values": [],
       "color": "#000000",
       "conference": "Western",
@@ -131,6 +147,7 @@
     {
       "city": "Memphis",
       "name": "Grizzlies",
+      "slug": "grizzlies",
       "values": [],
       "color": "#002566",
       "conference": "Western",
@@ -139,6 +156,7 @@
     {
       "city": "Denver",
       "name": "Nuggets",
+      "slug": "nuggets",
       "values": [],
       "color": "#FFB20F",
       "conference": "Western",
@@ -147,6 +165,7 @@
     {
       "city": "Indiana",
       "name": "Pacers",
+      "slug": "pacers",
       "values": [],
       "color": "#00275D",
       "conference": "Eastern",
@@ -155,6 +174,7 @@
     {
       "city": "Phoenix",
       "name": "Suns",
+      "slug": "suns",
       "values": [],
       "color": "#E56020",
       "conference": "Western",
@@ -163,6 +183,7 @@
     {
       "city": "New Orleans",
       "name": "Pelicans",
+      "slug": "pelicans",
       "values": [],
       "color": "#001641",
       "conference": "Eastern",
@@ -171,6 +192,7 @@
     {
       "city": "Orlando",
       "name": "Magic",
+      "slug": "magic",
       "values": [],
       "color": "#007DC5",
       "conference": "Eastern",
@@ -179,6 +201,7 @@
     {
       "city": "Brooklyn",
       "name": "Nets",
+      "slug": "nets",
       "values": [],
       "color": "#000000",
       "conference": "Eastern",
@@ -187,6 +210,7 @@
     {
       "city": "Boston",
       "name": "Celtics",
+      "slug": "celtics",
       "values": [],
       "color": "#008348",
       "conference": "Eastern",
@@ -195,6 +219,7 @@
     {
       "city": "Utah",
       "name": "Jazz",
+      "slug": "jazz",
       "values": [],
       "color": "#002B5C",
       "conference": "Western",
@@ -203,6 +228,7 @@
     {
       "city": "Minnesota",
       "name": "Timberwolves",
+      "slug": "timberwolves",
       "values": [],
       "color": "#00A94F",
       "conference": "Western",
@@ -211,6 +237,7 @@
     {
       "city": "New York",
       "name": "Knicks",
+      "slug": "knicks",
       "values": [],
       "color": "#F58426",
       "conference": "Eastern",
@@ -219,6 +246,7 @@
     {
       "city": "Philadelphia",
       "name": "76ers",
+      "slug": "philly",
       "values": [],
       "color": "#ED174C",
       "conference": "Eastern",
@@ -227,6 +255,7 @@
     {
       "city": "Detroit",
       "name": "Pistons",
+      "slug": "pistons",
       "values": [],
       "color": "#ED174C",
       "conference": "Eastern",
@@ -235,6 +264,7 @@
     {
       "city": "Charlotte",
       "name": "Hornets",
+      "slug": "hornets",
       "values": [],
       "color": "#1D1160",
       "conference": "Eastern",

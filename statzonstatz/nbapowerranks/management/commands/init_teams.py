@@ -33,6 +33,7 @@ class Command(BaseCommand):
             print team['name']
             team = Team(
                     name=team['name'], 
+                    css_slug=team['slug'], 
                     region=team['city'], 
                     conference=team['conference'],
                     division=team['division'],
