@@ -13,6 +13,8 @@ var x_min = 0;
 var x_max = 10;
 var current_x_min = x_min;
 
+var discrete_mode = false; // this is a kludge to fix centerOn bug
+
 var x = d3.scaleLinear()
   .domain([x_min, x_max])
   .range([dataMargin.left, dataWidth]);
@@ -63,37 +65,37 @@ window.onload = function() {
 
     var inner = outer
       .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        .attr("transform", `translate(${margin.left}, ${margin.top})`)
       .append("svg")
         .attr("width", dataWidth + dataMargin.left + dataMargin.right)
         .attr("height", dataHeight + dataMargin.top + dataMargin.bottom)
       .append('g')
-        .attr("transform", "translate(" + dataMargin.left + "," + dataMargin.top + ")");
+        .attr("transform", `translate(${dataMargin.left}, ${dataMargin.top})`);
 
 
     var xAxis = d3.axisBottom(x);
 
     var gX = outer.append('g')
-      .attr('transform', 'translate(' + ( margin.left + dataMargin.left ) + ',' + (height - margin.bottom - dataMargin.bottom + 5) + ')')
+      .attr('transform', `translate(${margin.left + dataMargin.left}, ${height - margin.bottom - dataMargin.bottom + 5})`)
       .call(xAxis);
 
     var gY = outer.append('g')
-        .attr('transform', 'translate(' + margin.left + ',' + margin.top + dataMargin.top +  ')');
+        .attr('transform', `translate(${margin.left}, ${margin.top + dataMargin.top})`);
 
 
     var labels = gY.selectAll('.team-label')
       .data(data)
       .enter().append('text')
-        .attr('class', d => d.slug + ' team-label')
+        .attr('class', d => `${d.slug} team-label`)
         .attr('text-anchor', 'end')
-        .attr('transform', d => 'translate(0, ' + y(d.rankings[current_x_min].rank) + ')')
+        .attr('transform', d => `translate(0, ${y(d.rankings[current_x_min].rank)})`)
         .text(d => d.name);
 
 
     var team = inner.selectAll('.team')
       .data(data)
       .enter().append('g')
-        .attr('class', d => d.slug + ' team')
+        .attr('class', d => `${d.slug} team`)
       .append('path')
         .attr('d', d => line(d.rankings))
         .style('fill', 'none')
@@ -128,10 +130,10 @@ window.onload = function() {
       voronoiPoly.attr('transform', d3.event.transform);
       gX.call(xAxis.scale(d3.event.transform.rescaleX(x)));
 
-      current_x_min = format(x.invert(-d3.event.transform.x));
-      var xFloor = Math.floor(current_x_min);
-      var xCeil = Math.ceil(current_x_min);
-      var percent = d3.easeCubic(current_x_min % 1);
+      var x_min = format(x.invert(-d3.event.transform.x));
+      var xFloor = Math.floor(x_min);
+      var xCeil = Math.ceil(x_min);
+      var percent = d3.easeCubic(x_min % 1);
 
       labels.attr('transform', function(d) {
         var floor = y(d.rankings[xFloor].rank);
@@ -143,6 +145,12 @@ window.onload = function() {
     }
 
     function centerOnNearestBase() {
+      if (discrete_mode) {
+        // there's a bug here where if you hit the pan buttons too fast
+        // we get into an infinite loop trying to center while another
+        // zoom event is happening
+        return;
+      }
       var base = format(x.invert(-d3.event.transform.x)); // where the left hand of the axis lies
       var roundedBase = format(Math.round(base));
       if (Math.abs(x(roundedBase - base)) > 1)  {
@@ -152,23 +160,25 @@ window.onload = function() {
     }
 
     function centerOn(base) {
-        var mX = x(base); 
-        var t = d3.zoomIdentity.translate(-mX, 0);
-        zoomHandle
-          .transition()
-          .duration(200)
-          .call(zoom.transform, t);
+      var mX = x(base); 
+      var t = d3.zoomIdentity.translate(-mX, 0);
+      zoomHandle
+        .transition()
+        .duration(200)
+        .call(zoom.transform, t);
     }
 
     // Desktop Panning Controls
     var leftButton = d3.select('#left')
       .on('click', function() {
+        discrete_mode = true;
         current_x_min--;
         console.log('moving to ' + current_x_min);
         centerOn(current_x_min);
       });
     var rightButton = d3.select('#right')
       .on('click', function() {
+        discrete_mode = true;
         current_x_min++;
         console.log('moving to ' + current_x_min);
         centerOn(current_x_min);
