@@ -58,6 +58,9 @@ window.onload = function() {
     });
     start_rankings.reverse();
 
+    /*
+     * D3.js Code
+     */
     var outer = d3.select(".chart").append("svg")
         .attr("style", "border: 1px solid black;")
         .attr("width", width + margin.left + margin.right)
@@ -72,7 +75,6 @@ window.onload = function() {
       .append('g')
         .attr("transform", `translate(${dataMargin.left}, ${dataMargin.top})`);
 
-
     var xAxis = d3.axisBottom(x);
 
     var gX = outer.append('g')
@@ -82,7 +84,6 @@ window.onload = function() {
     var gY = outer.append('g')
         .attr('transform', `translate(${margin.left}, ${margin.top + dataMargin.top})`);
 
-
     var labels = gY.selectAll('.team-label')
       .data(data)
       .enter().append('text')
@@ -90,7 +91,6 @@ window.onload = function() {
         .attr('text-anchor', 'end')
         .attr('transform', d => `translate(0, ${y(d.rankings[current_x_min].rank)})`)
         .text(d => d.name);
-
 
     var team = inner.selectAll('.team')
       .data(data)
@@ -115,41 +115,6 @@ window.onload = function() {
       .attr('height', height)
       .attr('class', 'zoom-handle')
       .call(zoom);
-
-      function highlight(team) {
-        return function(team) {
-          if (team) {
-            var slug = team.data.slug;
-            TweenMax.staggerTo($('.team path'), 0, {
-              cycle: {
-                stroke: (i, elem) => {
-                  if (slug === elem.getAttribute('team')) {
-                    return elem.getAttribute('natural-color');
-                  } else {
-                    return 'gray';
-                  }
-                },
-                'stroke-width': (i, elem) => {
-                  if (slug === elem.getAttribute('team')) {
-                    return 3;
-                  } else {
-                    return 1;
-                  }
-                }
-              }
-            }, 0.001);
-          }
-        };
-      }
-
-      function highlightAll() {
-        TweenMax.staggerTo($('.team path'), 0, {
-          cycle: {
-            stroke: (i, elem) => elem.getAttribute('natural-color'),
-          },
-          'stroke-width': 1
-        });
-      }
 
     var voronoiPoly = inner.selectAll('.voronoi')
       .data(voronoiData)
@@ -179,6 +144,9 @@ window.onload = function() {
       });
     }
 
+    /*
+     * Panning Logic
+     */
     function centerOnNearestBase() {
       if (discrete_mode) {
         // there's a bug here where if you hit the pan buttons too fast
@@ -221,8 +189,32 @@ window.onload = function() {
         centerOn(current_x_min);
       });
 
+    // Animate all this garbage in
     TweenMax.staggerFrom(start_rankings, 1, {opacity: 0}, 0.025);
 
   });
+
+  function highlight(team) {
+    return function(team) {
+      if (team) {
+        var slug = team.data.slug;
+        TweenMax.staggerTo($('.team path'), 0, {
+          cycle: {
+            'stroke': (i, elem) => (slug === elem.getAttribute('team')) ? elem.getAttribute('natural-color') : 'gray',
+            'stroke-width': (i, elem) => (slug === elem.getAttribute('team')) ? 3 : 1
+          }
+        }, 0.001);
+      }
+    };
+  }
+
+  function highlightAll() {
+    TweenMax.staggerTo($('.team path'), 0, {
+      cycle: {
+        'stroke': (i, elem) => elem.getAttribute('natural-color'),
+      },
+      'stroke-width': 1
+    });
+  }
 
 };
