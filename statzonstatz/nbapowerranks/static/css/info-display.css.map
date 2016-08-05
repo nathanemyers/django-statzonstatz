@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AAAA,kBAAmB;EACjB,OAAO,EAAE,IAAI;EACb,QAAQ,EAAE,QAAQ;EAClB,KAAK,EAAE,KAAK;EACZ,MAAM,EAAE,KAAK;EACb,gBAAgB,EAAE,IAAI;;AAGxB,eAAgB;EACd,SAAS,EAAE,GAAG",
-"sources": ["../../sass/info-display.scss"],
-"names": [],
-"file": "info-display.css"
-}
