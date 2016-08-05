@@ -142,14 +142,23 @@ window.onload = function() {
         };
       }
 
+      function highlightAll() {
+        TweenMax.staggerTo($('.team path'), 0, {
+          cycle: {
+            stroke: (i, elem) => elem.getAttribute('natural-color'),
+          },
+          'stroke-width': 1
+        });
+      }
+
     var voronoiPoly = inner.selectAll('.voronoi')
       .data(voronoiData)
       .enter().append('g')
         .attr('class', d => 'voronoi')
       .append('path')
         .attr('d', d => d ? "M" + d.join("L") + "Z" : null)
-        .on('mouseover', highlight(team));
-        //.on('mouseout', highlight(team));
+        .on('mouseover', highlight(team))
+        .on('mouseout', highlightAll);
 
     function zoomed() {
       team.attr('transform', d3.event.transform);
