@@ -14,6 +14,7 @@ var x_max = 10;
 var current_x_min = x_min;
 
 var discrete_mode = false; // this is a kludge to fix centerOn bug
+var pinned = false;
 
 var x = d3.scaleLinear()
   .domain([x_min, x_max])
@@ -29,8 +30,8 @@ var line = d3.line()
   .y(d => y(d.rank));
 
 var voronoi = d3.voronoi()
-  .x(d => x(d.week))
-  .y(d => y(d.rank))
+  .x(d => d.x)
+  .y(d => d.y)
   .size([3200, height]);
 
 var format = d3.format(".01f");
@@ -43,12 +44,6 @@ window.onload = function() {
     data = json.results;
     $('#spinner-container').css('display', 'none');
 
-    var allPoints = [];
-    data.forEach(function(d){
-      allPoints = allPoints.concat(d.rankings);
-    });
-
-    var voronoiData = voronoi.polygons(allPoints);
 
     // find initial rankings for greensock
     var start_rankings = new Array(30);
@@ -116,12 +111,17 @@ window.onload = function() {
       .attr('class', 'zoom-handle')
       .call(zoom);
 
+    var allPoints = generateVoronoiPoints($('.team path'));
+
+    var voronoiData = voronoi.polygons(allPoints);
+
     var voronoiPoly = inner.selectAll('.voronoi')
       .data(voronoiData)
       .enter().append('g')
         .attr('class', d => 'voronoi')
       .append('path')
         .attr('d', d => d ? "M" + d.join("L") + "Z" : null)
+        .on('click', pin(team))
         .on('mouseover', highlight(team))
         .on('mouseout', highlightAll);
 
@@ -140,7 +140,7 @@ window.onload = function() {
         var ceil = y(d.rankings[xCeil].rank);
         var travel = ceil - floor;
         var newY = floor + ( travel * percent );
-        return 'translate(0, ' + newY + ')';
+        return `translate(0, ${newY})`;
       });
     }
 
@@ -177,7 +177,6 @@ window.onload = function() {
         discrete_mode = true;
         if (current_x_min > 0) {
           current_x_min--;
-          console.log('moving to ' + current_x_min);
           centerOn(current_x_min);
         }
       });
@@ -185,7 +184,6 @@ window.onload = function() {
       .on('click', function() {
         discrete_mode = true;
         current_x_min++;
-        console.log('moving to ' + current_x_min);
         centerOn(current_x_min);
       });
 
@@ -194,10 +192,15 @@ window.onload = function() {
 
   });
 
+  function pin(team) {
+    pinned = true;
+  }
+
   function highlight(team) {
     return function(team) {
       if (team) {
         var slug = team.data.slug;
+        console.log();
         TweenMax.staggerTo($('.team path'), 0, {
           cycle: {
             'stroke': (i, elem) => (slug === elem.getAttribute('team')) ? elem.getAttribute('natural-color') : 'gray',
@@ -213,8 +216,31 @@ window.onload = function() {
       cycle: {
         'stroke': (i, elem) => elem.getAttribute('natural-color'),
       },
-      'stroke-width': 1
+      'stroke-width': 1.5
     });
+  }
+
+
+  function samplePath(pathNode, precision) {
+    var pathLength = pathNode.getTotalLength();
+    var samples = [];
+    for (let sample, sampleLength = 0; sampleLength <= pathLength; sampleLength += precision) {
+      sample = pathNode.getPointAtLength(sampleLength);
+      samples.push({
+        x: sample.x,
+        y: sample.y,
+        slug: pathNode.__data__.slug // there is surely a better way to get this
+      });
+    }
+    return samples;
+  } 
+
+  function generateVoronoiPoints(paths) {
+    var allPoints = [];
+    for (var path of paths) {
+      allPoints = allPoints.concat( samplePath(path, 10) );
+    }
+    return allPoints;
   }
 
 };
