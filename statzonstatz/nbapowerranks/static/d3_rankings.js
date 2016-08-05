@@ -100,7 +100,9 @@ window.onload = function() {
         .attr('d', d => line(d.rankings))
         .style('fill', 'none')
         .style('stroke-width', 1.5)
-        .style('stroke', d => d.color);
+        .style('stroke', d => d.color)
+        .attr('natural-color', d => d.color)
+        .attr('team', d => d.slug);
 
     var zoom = d3.zoom()
       .on('zoom', zoomed)
@@ -114,16 +116,40 @@ window.onload = function() {
       .attr('class', 'zoom-handle')
       .call(zoom);
 
-    function highlight(team) {
-      console.log(team);
-    }
+      function highlight(team) {
+        return function(team) {
+          if (team) {
+            var slug = team.data.slug;
+            TweenMax.staggerTo($('.team path'), 0, {
+              cycle: {
+                stroke: (i, elem) => {
+                  if (slug === elem.getAttribute('team')) {
+                    return elem.getAttribute('natural-color');
+                  } else {
+                    return 'gray';
+                  }
+                },
+                'stroke-width': (i, elem) => {
+                  if (slug === elem.getAttribute('team')) {
+                    return 3;
+                  } else {
+                    return 1;
+                  }
+                }
+              }
+            }, 0.001);
+          }
+        };
+      }
 
-    var voronoiPoly = zoomHandle.selectAll('.voronoi')
+    var voronoiPoly = inner.selectAll('.voronoi')
       .data(voronoiData)
-      .enter().append('path')
-        .attr('class', 'voronoi')
-        .attr('d', function(d) { return d ? "M" + d.join("L") + "Z" : null; })
+      .enter().append('g')
+        .attr('class', d => 'voronoi')
+      .append('path')
+        .attr('d', d => d ? "M" + d.join("L") + "Z" : null)
         .on('mouseover', highlight(team));
+        //.on('mouseout', highlight(team));
 
     function zoomed() {
       team.attr('transform', d3.event.transform);
@@ -172,9 +198,11 @@ window.onload = function() {
     var leftButton = d3.select('#left')
       .on('click', function() {
         discrete_mode = true;
-        current_x_min--;
-        console.log('moving to ' + current_x_min);
-        centerOn(current_x_min);
+        if (current_x_min > 0) {
+          current_x_min--;
+          console.log('moving to ' + current_x_min);
+          centerOn(current_x_min);
+        }
       });
     var rightButton = d3.select('#right')
       .on('click', function() {

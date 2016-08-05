@@ -41,9 +41,12 @@ $hornets: #1D1160;
 
 /*SVG logic*/
 
-.voronoi {
+g.voronoi {
   fill: none;
-  stroke: red;
+  path {
+    pointer-events: all;
+    stroke: none;
+  }
 }
 
 .zoom-handle {
