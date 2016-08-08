@@ -96,7 +96,6 @@ window.onload = function() {
         .style('fill', 'none')
         .style('stroke-width', 1.5)
         .style('stroke', d => d.color)
-        .attr('natural-color', d => d.color)
         .attr('team', d => d.slug);
 
     var zoom = d3.zoom()
@@ -201,23 +200,23 @@ window.onload = function() {
       if (team) {
         var slug = team.data.slug;
         console.log();
-        TweenMax.staggerTo($('.team path'), 0, {
-          cycle: {
-            'stroke': (i, elem) => (slug === elem.getAttribute('team')) ? elem.getAttribute('natural-color') : 'gray',
-            'stroke-width': (i, elem) => (slug === elem.getAttribute('team')) ? 3 : 1
-          }
-        }, 0.001);
+        d3.selectAll('.team path')
+          .transition()
+          .duration(15)
+          .ease(d3.easeLinear)
+          .style('stroke-width', d => (slug === d.slug) ? '3px' : '1px')
+          .style('stroke', d => (slug === d.slug) ? d.color : 'gray');
       }
     };
   }
 
   function highlightAll() {
-    TweenMax.staggerTo($('.team path'), 0, {
-      cycle: {
-        'stroke': (i, elem) => elem.getAttribute('natural-color'),
-      },
-      'stroke-width': 1.5
-    });
+    d3.selectAll('.team path')
+      .transition()
+      .duration(15)
+      .ease(d3.easeLinear)
+      .style('stroke', d => d.color)
+      .style('stroke-width', '1.5px');
   }
 
 
@@ -238,7 +237,7 @@ window.onload = function() {
   function generateVoronoiPoints(paths) {
     var allPoints = [];
     for (var path of paths) {
-      allPoints = allPoints.concat( samplePath(path, 10) );
+      allPoints = allPoints.concat( samplePath(path, 15) );
     }
     return allPoints;
   }
