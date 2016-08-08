@@ -192,31 +192,38 @@ window.onload = function() {
   });
 
   function pin(team) {
-    pinned = true;
+    return function(team) {
+      highlightTeam(team.data.slug);
+      pinned = true;
+    };
+  }
+
+  function highlightTeam(slug) {
+    d3.selectAll('.team path')
+      .transition()
+      .duration(15)
+      .ease(d3.easeLinear)
+      .style('stroke-width', d => (slug === d.slug) ? '3px' : '1px')
+      .style('stroke', d => (slug === d.slug) ? d.color : 'gray');
   }
 
   function highlight(team) {
     return function(team) {
-      if (team) {
-        var slug = team.data.slug;
-        console.log();
-        d3.selectAll('.team path')
-          .transition()
-          .duration(15)
-          .ease(d3.easeLinear)
-          .style('stroke-width', d => (slug === d.slug) ? '3px' : '1px')
-          .style('stroke', d => (slug === d.slug) ? d.color : 'gray');
+      if (team && !pinned) {
+        highlightTeam(team.data.slug);
       }
     };
   }
 
   function highlightAll() {
-    d3.selectAll('.team path')
-      .transition()
-      .duration(15)
-      .ease(d3.easeLinear)
-      .style('stroke', d => d.color)
-      .style('stroke-width', '1.5px');
+    if (!pinned) {
+      d3.selectAll('.team path')
+        .transition()
+        .duration(15)
+        .ease(d3.easeLinear)
+        .style('stroke', d => d.color)
+        .style('stroke-width', '1.5px');
+    }
   }
 
 
