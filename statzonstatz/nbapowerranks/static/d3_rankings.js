@@ -186,6 +186,7 @@ window.onload = function() {
     // Desktop Panning Controls
     var leftButton = d3.select('#left')
       .on('click', function() {
+        d3.event.stopPropagation();
         discrete_mode = true;
         if (current_x_min > 0) {
           current_x_min--;
@@ -194,6 +195,7 @@ window.onload = function() {
       });
     var rightButton = d3.select('#right')
       .on('click', function() {
+        d3.event.stopPropagation();
         discrete_mode = true;
         current_x_min++;
         centerOn(current_x_min);

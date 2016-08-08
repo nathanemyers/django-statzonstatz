@@ -42,6 +42,7 @@ $hornets: #1D1160;
 /*SVG logic*/
 
 g.voronoi {
+  cursor: pointer;
   fill: none;
   path {
     pointer-events: all;
