@@ -121,8 +121,21 @@ window.onload = function() {
       .append('path')
         .attr('d', d => d ? "M" + d.join("L") + "Z" : null)
         .on('click', pin(team))
-        .on('mouseover', highlight(team))
-        .on('mouseout', highlightAll);
+        .on('mouseover', team => {
+            if (team && !pinned) {
+              highlightTeam(team.data.slug);
+            }
+          })
+        .on('mouseout', team => {
+            if (!pinned) {
+              highlightAll();
+            }
+          });
+
+    window.onclick = function () {
+      highlightAll();
+      pinned = false;
+    };
 
     function zoomed() {
       team.attr('transform', d3.event.transform);
@@ -193,6 +206,7 @@ window.onload = function() {
 
   function pin(team) {
     return function(team) {
+      d3.event.stopPropagation();
       highlightTeam(team.data.slug);
       pinned = true;
     };
@@ -207,23 +221,13 @@ window.onload = function() {
       .style('stroke', d => (slug === d.slug) ? d.color : 'gray');
   }
 
-  function highlight(team) {
-    return function(team) {
-      if (team && !pinned) {
-        highlightTeam(team.data.slug);
-      }
-    };
-  }
-
   function highlightAll() {
-    if (!pinned) {
-      d3.selectAll('.team path')
-        .transition()
-        .duration(15)
-        .ease(d3.easeLinear)
-        .style('stroke', d => d.color)
-        .style('stroke-width', '1.5px');
-    }
+    d3.selectAll('.team path')
+      .transition()
+      .duration(15)
+      .ease(d3.easeLinear)
+      .style('stroke', d => d.color)
+      .style('stroke-width', '1.5px');
   }
 
 
