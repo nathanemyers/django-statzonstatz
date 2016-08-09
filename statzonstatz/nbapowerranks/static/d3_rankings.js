@@ -87,7 +87,18 @@ window.onload = function() {
         .attr('class', d => `${d.slug} team-label`)
         .attr('text-anchor', 'end')
         .attr('transform', d => `translate(0, ${y(d.rankings[current_x_min].rank) + 5})`)
-        .text(d => d.name);
+        .text(d => d.name)
+        .on('click', team => pin(team.slug))
+        .on('mouseover', team => {
+            if (team && !pinned) {
+              highlightTeam(team.slug);
+            }
+          })
+        .on('mouseout', () => {
+            if (!pinned) {
+              highlightAll();
+            }
+          });
 
     var team = inner.selectAll('.team')
       .data(data)
@@ -132,7 +143,7 @@ window.onload = function() {
         .attr('class', d => 'voronoi')
       .append('path')
         .attr('d', d => d ? "M" + d.join("L") + "Z" : null)
-        .on('click', pin(team))
+        .on('click', team => pin(team.data.slug))
         .on('mouseover', team => {
             if (team && !pinned) {
               highlightTeam(team.data.slug);
@@ -218,13 +229,11 @@ window.onload = function() {
 
   });
 
-  function pin(team) {
-    return function(team) {
-      d3.event.stopPropagation();
-      highlightAll();
-      highlightTeam(team.data.slug);
-      pinned = true;
-    };
+  function pin(slug) {
+    d3.event.stopPropagation();
+    highlightAll();
+    highlightTeam(slug);
+    pinned = true;
   }
 
   function highlightTeam(slug) {
