@@ -84,19 +84,31 @@ window.onload = function() {
       .enter().append('text')
         .attr('class', d => `${d.slug} team-label`)
         .attr('text-anchor', 'end')
-        .attr('transform', d => `translate(0, ${y(d.rankings[current_x_min].rank)})`)
+        .attr('transform', d => `translate(0, ${y(d.rankings[current_x_min].rank) + 5})`)
         .text(d => d.name);
 
     var team = inner.selectAll('.team')
       .data(data)
       .enter().append('g')
-        .attr('class', d => `${d.slug} team`)
+        .attr('class', d => `${d.slug} team`);
+
+    team
       .append('path')
         .attr('d', d => line(d.rankings))
         .style('fill', 'none')
         .style('stroke-width', 1.5)
         .style('stroke', d => d.color)
         .attr('team', d => d.slug);
+
+    team.selectAll('circle')
+      .data(d => d.rankings)
+      .enter().append('circle')
+        .attr('cx', d => x(d.week))
+        .attr('cy', d => y(d.rank))
+        .attr('r', '5px')
+        .style('opacity', 0)
+        .style('fill', d => d.color);
+        
 
     var zoom = d3.zoom()
       .on('zoom', zoomed)
@@ -110,9 +122,7 @@ window.onload = function() {
       .attr('class', 'zoom-handle')
       .call(zoom);
 
-    var allPoints = generateVoronoiPoints($('.team path'));
-
-    var voronoiData = voronoi.polygons(allPoints);
+    var voronoiData = voronoi.polygons(generateVoronoiPoints($('.team path')));
 
     var voronoiPoly = inner.selectAll('.voronoi')
       .data(voronoiData)
@@ -209,18 +219,25 @@ window.onload = function() {
   function pin(team) {
     return function(team) {
       d3.event.stopPropagation();
+      highlightAll();
       highlightTeam(team.data.slug);
       pinned = true;
     };
   }
 
   function highlightTeam(slug) {
-    d3.selectAll('.team path')
+    d3.selectAll('.team > path')
       .transition()
       .duration(15)
       .ease(d3.easeLinear)
       .style('stroke-width', d => (slug === d.slug) ? '3px' : '1px')
       .style('stroke', d => (slug === d.slug) ? d.color : 'gray');
+
+    d3.selectAll(`.${slug} > circle`)
+      .transition()
+      .duration(200)
+      .ease(d3.easeLinear)
+      .style('opacity', 1);
   }
 
   function highlightAll() {
@@ -230,6 +247,12 @@ window.onload = function() {
       .ease(d3.easeLinear)
       .style('stroke', d => d.color)
       .style('stroke-width', '1.5px');
+
+    d3.selectAll('.team circle')
+      .transition()
+      .duration(15)
+      .ease(d3.easeLinear)
+      .style('opacity', 0);
   }
 
 
