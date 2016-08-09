@@ -1,11 +1,11 @@
 /* jshint esnext: true */
 var data;
 
-var margin = {top: 0, right: 0, bottom: 0, left: 100};
+var margin = {top: 0, right: 100, bottom: 0, left: 100};
 var width = 960 - margin.left - margin.right;
 var height = 600 - margin.top - margin.bottom;
 
-var dataMargin = {top: 10, right: 6, bottom: 50, left: 0};
+var dataMargin = {top: 10, right: 6, bottom: 50, left: 5};
 var dataWidth = width - dataMargin.left - dataMargin.right;
 var dataHeight = height - dataMargin.top - dataMargin.bottom;
 
@@ -71,15 +71,34 @@ window.onload = function() {
         .attr("transform", `translate(${dataMargin.left}, ${dataMargin.top})`);
 
     var xAxis = d3.axisBottom(x);
+    var yAxis = d3.axisRight(y)
+                  .tickValues([1, 5, 10, 15, 20, 25, 30]);
 
     var gX = outer.append('g')
       .attr('transform', `translate(${margin.left + dataMargin.left}, 
                                     ${height - margin.bottom - dataMargin.bottom + 5})`)
-      .call(xAxis);
+      .call(xAxis)
+      .append('text')
+        .text('Week')
+        .attr('fill', 'black')
+        .attr('font-size', 15)
+        .attr('transform', `translate(${width / 2}, 40)`);
+
 
     var gY = outer.append('g')
-        .attr('transform', `translate(${margin.left}, 
-                                      ${margin.top + dataMargin.top})`);
+      .attr('transform', `translate(${margin.left}, 
+                                    ${margin.top + dataMargin.top})`);
+
+    var rankAxis = outer.append('g')
+      .attr('transform', `translate(${margin.left + dataMargin.left + width}, 
+                                    ${margin.top + dataMargin.top})`)
+      .call(yAxis)
+      .append('text')
+        .text('Rank')
+        .attr('fill', 'black')
+        .attr('font-size', 15)
+        .attr('transform', `translate(40, ${height / 2}) rotate(-90)`);
+
 
     var labels = gY.selectAll('.team-label')
       .data(data)
