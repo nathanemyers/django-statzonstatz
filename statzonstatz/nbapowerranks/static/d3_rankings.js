@@ -77,8 +77,9 @@ window.onload = function() {
     var gX = outer.append('g')
       .attr('transform', `translate(${margin.left + dataMargin.left}, 
                                     ${height - margin.bottom - dataMargin.bottom + 5})`)
-      .call(xAxis)
-      .append('text')
+      .call(xAxis);
+
+    gX.append('text')
         .text('Week')
         .attr('fill', 'black')
         .attr('font-size', 15)
