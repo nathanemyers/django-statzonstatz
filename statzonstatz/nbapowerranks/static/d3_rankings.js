@@ -244,10 +244,11 @@ window.onload = function() {
       .style('stroke-width', d => (slug === d.slug) ? '3px' : '1px')
       .style('stroke', d => (slug === d.slug) ? d.color : 'gray');
 
-    d3.selectAll(`.${slug}.team-label`)
+    d3.selectAll('.team-label')
       .transition()
       .duration(15)
-      .attr('font-weight', 900);
+      .attr('fill', d => (slug === d.slug) ? 'black' : 'gray')
+      .attr('font-weight', d => (slug === d.slug) ? 900 : 100);
 
     d3.selectAll(`.${slug} > circle`)
       .transition()
@@ -267,7 +268,8 @@ window.onload = function() {
     d3.selectAll('.team-label')
       .transition()
       .duration(15)
-      .attr('font-weight', 100);
+      .attr('font-weight', 100)
+      .attr('fill', 'black');
 
     d3.selectAll('.team circle')
       .transition()
