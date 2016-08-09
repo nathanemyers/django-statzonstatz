@@ -73,11 +73,13 @@ window.onload = function() {
     var xAxis = d3.axisBottom(x);
 
     var gX = outer.append('g')
-      .attr('transform', `translate(${margin.left + dataMargin.left}, ${height - margin.bottom - dataMargin.bottom + 5})`)
+      .attr('transform', `translate(${margin.left + dataMargin.left}, 
+                                    ${height - margin.bottom - dataMargin.bottom + 5})`)
       .call(xAxis);
 
     var gY = outer.append('g')
-        .attr('transform', `translate(${margin.left}, ${margin.top + dataMargin.top})`);
+        .attr('transform', `translate(${margin.left}, 
+                                      ${margin.top + dataMargin.top})`);
 
     var labels = gY.selectAll('.team-label')
       .data(data)
@@ -136,7 +138,7 @@ window.onload = function() {
               highlightTeam(team.data.slug);
             }
           })
-        .on('mouseout', team => {
+        .on('mouseout', () => {
             if (!pinned) {
               highlightAll();
             }
