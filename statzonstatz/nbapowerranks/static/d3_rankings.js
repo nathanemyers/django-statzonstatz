@@ -1,11 +1,11 @@
 /* jshint esnext: true */
 var data;
 
-var margin = {top: 0, right: 100, bottom: 0, left: 100};
+var margin = {top: 0, right: 60, bottom: 50, left: 100};
 var width = 960 - margin.left - margin.right;
 var height = 600 - margin.top - margin.bottom;
 
-var dataMargin = {top: 10, right: 6, bottom: 50, left: 5};
+var dataMargin = {top: 10, right: 6, bottom: 5, left: 5};
 var dataWidth = width - dataMargin.left - dataMargin.right;
 var dataHeight = height - dataMargin.top - dataMargin.bottom;
 
@@ -76,7 +76,7 @@ window.onload = function() {
 
     var gX = outer.append('g')
       .attr('transform', `translate(${margin.left + dataMargin.left}, 
-                                    ${height - margin.bottom - dataMargin.bottom + 5})`)
+                                    ${dataHeight + margin.top + dataMargin.top + dataMargin.bottom})`)
       .call(xAxis);
 
     gX.append('text')
