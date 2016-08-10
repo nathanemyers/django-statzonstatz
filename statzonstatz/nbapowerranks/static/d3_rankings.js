@@ -140,6 +140,23 @@ window.onload = function() {
         .style('opacity', 0)
         .style('fill', d => d.color);
 
+    var playoffs = inner.append('g')
+        .attr('class', 'playoffs-marker');
+    var playoffsElements = playoffs.append('g')
+        .attr('transform', `translate(${x(24) + 10}, ${dataHeight + dataMargin.top}) rotate(-90)`);
+    playoffsElements.append('path')
+      .attr(`d`, `M0 0 H ${dataHeight}`);
+    playoffsElements.append('rect')
+      .style('fill', 'white')
+      .style('stroke', 'white')
+      .attr('width', `100`)
+      .attr('height', `20`)
+      .attr(`transform`, `translate(${dataHeight/2 - 50}, -10)`);
+    playoffsElements.append('text')
+      .attr('text-anchor', 'middle')
+      .attr(`transform`, `translate(${dataHeight/2}, 5)`)
+      .text('Playoffs Begin');
+
     var zoom = d3.zoom()
       .on('zoom', zoomed)
       .on('end', centerOnNearestBase)
@@ -182,6 +199,7 @@ window.onload = function() {
 
     function zoomed() {
       team.attr('transform', d3.event.transform);
+      playoffs.attr('transform', d3.event.transform);
       inner.selectAll('.voronoi').attr('transform', d3.event.transform);
       gX.call(xAxis.scale(d3.event.transform.rescaleX(x)));
 
@@ -259,6 +277,12 @@ window.onload = function() {
       });
 
     function settleZoom(duration) {
+      //var t = d3.zoomIdentity.scaleTo(-mX, 0);
+      //zoomHandle
+        //.transition()
+        //.duration(200)
+        //.call(zoom.transform, t);
+
       gX.transition()
         .duration(duration)
         .call(xAxis)
@@ -279,8 +303,7 @@ window.onload = function() {
 
     // Animate all this garbage in
     TweenMax.staggerFrom(start_rankings, 1, {opacity: 0}, 0.025);
-
-  });
+  }); // End of window.onload
 
   function pin(slug) {
     d3.event.stopPropagation();
@@ -330,8 +353,6 @@ window.onload = function() {
       .ease(d3.easeLinear)
       .style('opacity', 0);
   }
-
-
 
   /*
    * Voronoi Support Code
