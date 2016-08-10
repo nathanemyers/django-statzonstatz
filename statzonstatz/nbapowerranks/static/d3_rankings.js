@@ -254,13 +254,14 @@ window.onload = function() {
       x.domain([0, max_x]);
       gX.transition()
         .duration(500)
-        .call(xAxis);
+        .call(xAxis)
+      // slight kludge, we just want to to do this once
+        .on('end', generateVoronoi); 
 
       team.selectAll('path')
         .transition()
         .duration(500)
-        .attr('d', d => line(d.rankings))
-        .on('end', generateVoronoi);
+        .attr('d', d => line(d.rankings));
         
       team.selectAll('circle')
         .transition()
