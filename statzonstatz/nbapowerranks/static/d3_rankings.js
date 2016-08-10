@@ -9,15 +9,13 @@ var dataMargin = {top: 10, right: 6, bottom: 5, left: 5};
 var dataWidth = width - dataMargin.left - dataMargin.right;
 var dataHeight = height - dataMargin.top - dataMargin.bottom;
 
-var x_min = 0;
-var x_max = 10;
-var current_x_min = x_min;
+var current_x_min = 0;
 
 var discrete_mode = false; // this is a kludge to fix centerOn bug
 var pinned = false;
 
 var x = d3.scaleLinear()
-  .domain([x_min, x_max])
+  .domain([current_x_min, current_x_min + 10])
   .range([dataMargin.left, dataWidth]);
 
 var y = d3.scaleLinear()
@@ -43,7 +41,6 @@ window.onload = function() {
     }
     data = json.results;
     $('#spinner-container').css('display', 'none');
-
 
     // find initial rankings for greensock
     var start_rankings = new Array(30);
@@ -141,7 +138,6 @@ window.onload = function() {
         .attr('r', '5px')
         .style('opacity', 0)
         .style('fill', d => d.color);
-        
 
     var zoom = d3.zoom()
       .on('zoom', zoomed)
@@ -155,25 +151,28 @@ window.onload = function() {
       .attr('class', 'zoom-handle')
       .call(zoom);
 
-    var voronoiData = voronoi.polygons(generateVoronoiPoints($('.team path')));
+    generateVoronoi();
 
-    var voronoiPoly = inner.selectAll('.voronoi')
-      .data(voronoiData)
-      .enter().append('g')
-        .attr('class', d => 'voronoi')
-      .append('path')
-        .attr('d', d => d ? "M" + d.join("L") + "Z" : null)
-        .on('click', team => pin(team.data.slug))
-        .on('mouseover', team => {
-            if (team && !pinned) {
-              highlightTeam(team.data.slug);
-            }
-          })
-        .on('mouseout', () => {
-            if (!pinned) {
-              highlightAll();
-            }
-          });
+    function generateVoronoi() {
+      var voronoiData = voronoi.polygons(generateVoronoiPoints($('.team path')));
+      inner.selectAll('.voronoi').remove();
+      inner.selectAll('.voronoi').data(voronoiData)
+        .enter().append('g')
+          .attr('class', d => 'voronoi')
+        .append('path')
+          .attr('d', d => d ? "M" + d.join("L") + "Z" : null)
+          .on('click', team => pin(team.data.slug))
+          .on('mouseover', team => {
+              if (team && !pinned) {
+                highlightTeam(team.data.slug);
+              }
+            })
+          .on('mouseout', () => {
+              if (!pinned) {
+                highlightAll();
+              }
+            });
+    }
 
     window.onclick = function () {
       highlightAll();
@@ -182,7 +181,7 @@ window.onload = function() {
 
     function zoomed() {
       team.attr('transform', d3.event.transform);
-      voronoiPoly.attr('transform', d3.event.transform);
+      inner.selectAll('.voronoi').attr('transform', d3.event.transform);
       gX.call(xAxis.scale(d3.event.transform.rescaleX(x)));
 
       var x_min = format(x.invert(-d3.event.transform.x));
@@ -244,6 +243,33 @@ window.onload = function() {
         centerOn(current_x_min);
       });
 
+    var zoomButton = d3.select('#zoom')
+      .on('click', function() {
+        d3.event.stopPropagation();
+        zoomOut();
+      });
+
+    function zoomOut() {
+      var max_x = 24; // fix this
+      x.domain([0, max_x]);
+      gX.transition()
+        .duration(500)
+        .call(xAxis);
+
+      team.selectAll('path')
+        .transition()
+        .duration(500)
+        .attr('d', d => line(d.rankings))
+        .on('end', generateVoronoi);
+        
+      team.selectAll('circle')
+        .transition()
+        .duration(500)
+        .attr('cx', d => x(d.week))
+        .attr('cy', d => y(d.rank));
+
+    }
+
     // Animate all this garbage in
     TweenMax.staggerFrom(start_rankings, 1, {opacity: 0}, 0.025);
 
@@ -299,6 +325,10 @@ window.onload = function() {
   }
 
 
+
+  /*
+   * Voronoi Support Code
+   */
   function samplePath(pathNode, precision) {
     var pathLength = pathNode.getTotalLength();
     var samples = [];
