@@ -9,6 +9,7 @@ var dataMargin = {top: 10, right: 6, bottom: 5, left: 5};
 var dataWidth = width - dataMargin.left - dataMargin.right;
 var dataHeight = height - dataMargin.top - dataMargin.bottom;
 
+var zoomedOut = false;
 var current_x_min = 0;
 
 var discrete_mode = false; // this is a kludge to fix centerOn bug
@@ -246,29 +247,34 @@ window.onload = function() {
     var zoomButton = d3.select('#zoom')
       .on('click', function() {
         d3.event.stopPropagation();
-        zoomOut();
+        if (zoomedOut) {
+          x.domain([current_x_min, current_x_min + 10]);
+          settleZoom(500);
+          zoomedOut = false;
+        } else {
+          x.domain([0, 24]);
+          settleZoom(500);
+          zoomedOut = true;
+        }
       });
 
-    function zoomOut() {
-      var max_x = 24; // fix this
-      x.domain([0, max_x]);
+    function settleZoom(duration) {
       gX.transition()
-        .duration(500)
+        .duration(duration)
         .call(xAxis)
       // slight kludge, we just want to to do this once
         .on('end', generateVoronoi); 
 
       team.selectAll('path')
         .transition()
-        .duration(500)
+        .duration(duration)
         .attr('d', d => line(d.rankings));
         
       team.selectAll('circle')
         .transition()
-        .duration(500)
+        .duration(duration)
         .attr('cx', d => x(d.week))
         .attr('cy', d => y(d.rank));
-
     }
 
     // Animate all this garbage in
