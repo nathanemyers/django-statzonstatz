@@ -5,7 +5,7 @@ var margin = {top: 0, right: 60, bottom: 50, left: 100};
 var width = 960 - margin.left - margin.right;
 var height = 600 - margin.top - margin.bottom;
 
-var dataMargin = {top: 10, right: 6, bottom: 5, left: 5};
+var dataMargin = {top: 10, right: 14, bottom: 5, left: 5};
 var dataWidth = width - dataMargin.left - dataMargin.right;
 var dataHeight = height - dataMargin.top - dataMargin.bottom;
 
@@ -31,7 +31,7 @@ var line = d3.line()
 var voronoi = d3.voronoi()
   .x(d => d.x)
   .y(d => d.y)
-  .size([3200, height]);
+  .size([x(24), height]);
 
 var format = d3.format(".01f");
 
@@ -145,7 +145,8 @@ window.onload = function() {
     var playoffsElements = playoffs.append('g')
         .attr('transform', `translate(${x(24) + 10}, ${dataHeight + dataMargin.top}) rotate(-90)`);
     playoffsElements.append('path')
-      .attr(`d`, `M0 0 H ${dataHeight}`);
+      .attr('stroke-width', 2.4)
+      .attr(`d`, `M15 0 H ${dataHeight - 7}`);
     playoffsElements.append('rect')
       .style('fill', 'white')
       .style('stroke', 'white')
@@ -258,8 +259,10 @@ window.onload = function() {
       .on('click', function() {
         d3.event.stopPropagation();
         discrete_mode = true;
-        current_x_min++;
-        centerOn(current_x_min);
+        if (current_x_min + 10 < 24) {
+          current_x_min++;
+          centerOn(current_x_min);
+        }
       });
 
     var zoomButton = d3.select('#zoom')
