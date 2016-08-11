@@ -3,6 +3,7 @@
 
 .panning-controls {
   @include clearfix();
+  width: 900px;
   
   .button {
     display: inline-block;
@@ -12,6 +13,7 @@
     font-size: 2.2em;
     background-color: white;
     border: 2px solid black;
+    cursor: pointer;
   }
 
   .button:hover {
@@ -22,11 +24,12 @@
     //background-color: $button-highlight;
   //}
 
-  #left {
+  #left-button {
+    margin-left: 100px;
     float: left;
   }
 
-  #right {
+  #right-button {
     float: right;
   }
 }
