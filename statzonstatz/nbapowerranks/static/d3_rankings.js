@@ -11,6 +11,7 @@ var dataHeight = height - dataMargin.top - dataMargin.bottom;
 
 var zoomedOut = false;
 var current_x_min = 0;
+var panOffset = 0;
 
 var discrete_mode = false; // this is a kludge to fix centerOn bug
 var pinned = false;
@@ -55,7 +56,6 @@ window.onload = function() {
      * D3.js Code
      */
     var outer = d3.select(".chart").append("svg")
-        .attr("style", "border: 1px solid black;")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom);
 
@@ -237,8 +237,8 @@ window.onload = function() {
     }
 
     function centerOn(base) {
-      var mX = x(base); 
-      var t = d3.zoomIdentity.translate(-mX, 0);
+      panOffset = x(base); 
+      var t = d3.zoomIdentity.translate(-panOffset, 0);
       zoomHandle
         .transition()
         .duration(200)
@@ -265,44 +265,49 @@ window.onload = function() {
         }
       });
 
-    var zoomButton = d3.select('#zoom')
-      .on('click', function() {
-        d3.event.stopPropagation();
-        if (zoomedOut) {
-          x.domain([current_x_min, current_x_min + 10]);
-          settleZoom(500);
-          zoomedOut = false;
-        } else {
-          x.domain([0, 24]);
-          settleZoom(500);
-          zoomedOut = true;
-        }
-      });
+    /*
+     *I'm having trouble reconciling using zoom to pan
+     *and using scales to effect zooming in and out.
+     *One solution might be to zoom the scale only on one
+     *dimension, but I don't belive that's an option.
+     *Leaving this code in here for future reference.
+     */
+    //var zoomButton = d3.select('#zoom')
+      //.on('click', function() {
+        //d3.event.stopPropagation();
+        //if (zoomedOut) {
+          //x.domain([current_x_min, current_x_min + 10]);
+          //xAxis.scale(x);
+          //x.range([dataMargin.left, dataWidth]);
+          //settleZoom(500);
+          //zoomedOut = false;
+        //} else {
+          //x.domain([0, 24]);
+          //xAxis.scale(x);
+          //x.range([dataMargin.left + panOffset, dataWidth + panOffset]);
+          //settleZoom(500);
+          //zoomedOut = true;
+        //}
+      //});
 
-    function settleZoom(duration) {
-      //var t = d3.zoomIdentity.scaleTo(-mX, 0);
-      //zoomHandle
+    //function settleZoom(duration) {
+      //gX.transition()
+        //.duration(duration)
+        //.call(xAxis)
+      //// slight kludge, we just want to to do this once
+        //.on('end', generateVoronoi); 
+
+      //team.selectAll('path')
         //.transition()
-        //.duration(200)
-        //.call(zoom.transform, t);
-
-      gX.transition()
-        .duration(duration)
-        .call(xAxis)
-      // slight kludge, we just want to to do this once
-        .on('end', generateVoronoi); 
-
-      team.selectAll('path')
-        .transition()
-        .duration(duration)
-        .attr('d', d => line(d.rankings));
+        //.duration(duration)
+        //.attr('d', d => line(d.rankings));
         
-      team.selectAll('circle')
-        .transition()
-        .duration(duration)
-        .attr('cx', d => x(d.week))
-        .attr('cy', d => y(d.rank));
-    }
+      //team.selectAll('circle')
+        //.transition()
+        //.duration(duration)
+        //.attr('cx', d => x(d.week))
+        //.attr('cy', d => y(d.rank));
+    //}
 
     // Animate all this garbage in
     TweenMax.staggerFrom(start_rankings, 1, {opacity: 0}, 0.025);
