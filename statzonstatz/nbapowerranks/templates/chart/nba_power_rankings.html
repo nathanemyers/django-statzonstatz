@@ -16,6 +16,7 @@
   <script src="/static/d3_rankings.js?ver={{version}}"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"></script>
 
 
   <link rel="stylesheet" href="/static/css/chart.css?ver={{version}}" type="text/css" charset="utf-8">
@@ -26,6 +27,7 @@
   <link href="/static/css/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
 
   <link href='https://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet' type='text/css'>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type='text/css' >
 
 </head>
 <body>
@@ -46,17 +48,15 @@
 
   <div class="power-rankings page-segment">
     <div class="chart">
+      <!--d3.js will insert code here-->
     </div>
     <div class="panning-controls">
-      <button id='left'>
-        Move Left
-      </button>
-      <button id='zoom'>
-        Zoom Out
-      </button>
-      <button id='right'>
-        Move Right
-      </button>
+      <span id="left-button" class="button">
+        <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+      </span>
+      <span id="right-button" class="button">
+        <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+      </span>
     </div>
 
 

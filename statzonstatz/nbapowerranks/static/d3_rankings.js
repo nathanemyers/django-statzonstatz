@@ -245,25 +245,60 @@ window.onload = function() {
         .call(zoom.transform, t);
     }
 
-    // Desktop Panning Controls
-    var leftButton = d3.select('#left')
+
+    /*
+     *Panning Controls
+     */
+    $('.button').on('click', (e) => {
+    });
+    
+    var leftButton = d3.select('#left-button')
       .on('click', function() {
         d3.event.stopPropagation();
-        discrete_mode = true;
-        if (current_x_min > 0) {
-          current_x_min--;
-          centerOn(current_x_min);
-        }
+        panLeft();
       });
-    var rightButton = d3.select('#right')
+    var rightButton = d3.select('#right-button')
       .on('click', function() {
         d3.event.stopPropagation();
-        discrete_mode = true;
-        if (current_x_min + 10 < 24) {
-          current_x_min++;
-          centerOn(current_x_min);
+        panRight();
+      });
+
+    d3.select('body')
+      .on('keydown', () => {
+        if (d3.event.key === 'ArrowLeft') {
+          panLeft();
+        }
+        if (d3.event.key === 'ArrowRight') {
+          panRight();
         }
       });
+
+    function panLeft() {
+      discrete_mode = true;
+      if (current_x_min > 0) {
+        TweenMax.from($('#left-button'), 1, {
+          'background-color': '#bada55',
+          ease: 'Cubic'
+        });
+        current_x_min--;
+        centerOn(current_x_min);
+      }
+    }
+
+    function panRight() {
+      discrete_mode = true;
+      if (current_x_min + 10 < 24) {
+        TweenMax.from($('#right-button'), 1, {
+          'background-color': '#bada55',
+          ease: 'Cubic'
+        });
+        current_x_min++;
+        centerOn(current_x_min);
+      }
+    }
+
+    // Animate all this garbage in
+    TweenMax.staggerFrom(start_rankings, 1, {opacity: 0}, 0.025);
 
     /*
      *I'm having trouble reconciling using zoom to pan
@@ -308,9 +343,6 @@ window.onload = function() {
         //.attr('cx', d => x(d.week))
         //.attr('cy', d => y(d.rank));
     //}
-
-    // Animate all this garbage in
-    TweenMax.staggerFrom(start_rankings, 1, {opacity: 0}, 0.025);
   }); // End of window.onload
 
   function pin(slug) {
@@ -386,5 +418,6 @@ window.onload = function() {
     }
     return allPoints;
   }
+
 
 };
